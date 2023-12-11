@@ -23,13 +23,32 @@ export class HomeComponent implements OnInit {
         let count = 0;
 
         setInterval(()=>{
-          observer.next(count);
+          observer.next(count); //!!
+          // if(count===2) {
+          //   observer.complete();}
+
+          if(count>3) {
+            observer.error( new Error('Count is grater then 3!'))
+          }
+
+          if(count===7) {
+            observer.complete();
+          }
+
           count++
         },1000)
       }
     )
 
-    this.firstObservableSubs= customObservable.subscribe((data)=>console.log(data))
+    this.firstObservableSubs= customObservable.subscribe(
+      (data)=>console.log(data),
+      (error)=>{
+        alert(error.message)
+        console.log(error.message)},
+      ()=>{
+        console.log("Completed!")
+      }
+      )
 
 
   }
